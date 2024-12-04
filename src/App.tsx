@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Candidates } from "./types/Candidates";
+import apiClient from "./api/apiClient";
 
 function App() {
+  const [data, setData] = useState(Array<Candidates>);
+  useEffect(() => {
+    apiClient
+      .get("/candidates")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <table>
+        <th>ID:</th>
+        <th>Kategoria:</th>
+        <th>Kezdés:</th>
+        <th>Vége:</th>
+        <th>Szavazatok:</th>
+        {data.map((c) => (
+          <tr>
+            <td>{c._id}</td>
+            <td>{c.category.name}</td>
+            <td>{c.category.start}</td>
+            <td>{c.category.end}</td>
+            <td>{c.votes}</td>
+          </tr>
+        ))}
+      </table>
     </div>
   );
 }
-
 export default App;
