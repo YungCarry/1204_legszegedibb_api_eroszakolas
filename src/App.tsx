@@ -11,6 +11,7 @@ function App() {
       .get("/candidates")
       .then((response) => {
         setData(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -29,10 +30,12 @@ function App() {
           <tr>
             <td>{c._id}</td>
             <td>{c.category.name}</td>
-            <td>{c.category.start}</td>
-            <td>{c.category.end}</td>
+            <td>{c.category.start.toString()}</td>
+            <td>{c.category.end.toString()}</td>
             <td>{c.votes}</td>
           </tr>
+
+          
         ))}
       </table>
     </div>
